@@ -4,18 +4,17 @@ var shortener = {
     this.api_endpoint = 'http://api.longurl.org/v2/'
     this.popup = '#chrome-ext-unshortener-popup'
     this.loadSupportedServices()
-    this.bindEventListeners()  
   },
   loadSupportedServices: function() {
     var supportedServices = localStorage.getItem('supportedServices')
     if (supportedServices) {
-      this.supportedServices = supportedServices 
+      this.supportedServices = supportedServices
     } else {
-      this.getServicesFromAPI()  
+      this.getServicesFromAPI()
     }  
   },
   bindEventListeners: function() {
-    $(this.popup).on('click', '.close_frame', this.hidePopup.bind(this))
+    $(this.popup).on('click', 'button', this.hidePopup)
   },
   getServicesFromAPI:function() {
     $.ajax({
@@ -29,6 +28,7 @@ var shortener = {
     localStorage.setItem('supportedServices', response)    
   },
   getInfo: function(url) {
+    this.bindEventListeners()
     $.ajax({
         method:   'GET',
         context:  this,
@@ -58,7 +58,7 @@ var shortener = {
     setTimeout(this.hidePopup, 5000)
   },
   hidePopup: function() {
-    $(this.popup).remove()
+    $('#chrome-ext-unshortener-popup').remove()
   }
 }
 
@@ -67,10 +67,10 @@ shortener.init()
 chrome.runtime.onMessage.addListener(
   function(request) {
     if (request.data) {
-      var data = request.data;
-      shortener.getInfo(data.linkUrl)
+      var data = request.data
+      
       $(shortener.popup).remove()
-
+      
       var html = [
         '<div id="chrome-ext-unshortener-popup">',
         '<p>Loading...</p>',
@@ -79,6 +79,7 @@ chrome.runtime.onMessage.addListener(
       ].join('\n')
 
       $('body').append(html)
+      shortener.getInfo(data.linkUrl)
     }
 
   });
