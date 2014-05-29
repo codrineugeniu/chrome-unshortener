@@ -22,3 +22,7 @@ Something should appear on the top right side of the page.
 ## Customization
 
 Feel free to edit `css/style.css` if you don't like the included styling.
+
+## License
+
+[The MIT License](http://opensource.org/licenses/MIT)
