@@ -1,0 +1,27 @@
+{
+  "name" : "Chrome URL unshortener",
+  "version" : "1.0.0",
+  "description" : "'Unshortens' URLs like Twitter's t.co",
+  "background" : { "scripts": ["src/shortener.js"] },
+  "permissions" : [
+    "contextMenus",
+    "tabs",
+    "http://*/*",
+    "https://*/*",
+    "file://*/*"
+   ],
+   "content_scripts": [{
+     "matches": ["http://*/*", "https://*/*", "file://*/*"],
+     "js": [
+       "lib/jquery.js"
+     ],
+     "css": [ "css/style.css" ]
+   }],
+   "icons": {
+     "16": "img/icon16.png",
+     "48": "img/icon48.png",
+    "128": "img/icon128.png"
+  },
+  "minimum_chrome_version" : "6.0.0.0",
+  "manifest_version": 2
+}
